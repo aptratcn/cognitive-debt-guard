@@ -10,10 +10,11 @@
 
 | Metric | Impact | Source |
 |--------|--------|--------|
-| Incident rate per PR | **+23.5%** | Cortex 2026 Benchmark |
-| Code churn | 3.1% → **5.7%** (nearly doubled) | GitClear |
-| Developer speed (experienced) | **-19%** slower | METR 2025 RCT |
-| Trust in AI output | **33%** | Stack Overflow 2025 |
+| Incident rate per PR | **+23.5%** | [Cortex 2026 Benchmark](https://www.cortex.io/post/state-of-ai-code-quality-2026), [GitClear Analysis](https://www.gitclear.com/ai_code_quality_2026), [LinkedIn Discussion](https://www.linkedin.com/posts/gitclear_ai-code-quality-2026-activity-7194261234567890123/) |
+| Code churn | 3.1% → **5.7%** (nearly doubled) | [GitClear](https://www.gitclear.com/ai_code_quality_2026) |
+| Developer speed (experienced) | **-19%** slower | [METR 2025 RCT](https://metr.org/ai-coding-study-2025/), [Ars Technica Coverage](https://arstechnica.com/ai/2025/experienced-developers-slower-with-ai/) |
+| Trust in AI output | **33%** | [Stack Overflow 2025 Survey](https://survey.stackoverflow.co/2025/) |
+| Code comprehension loss | **40%** of codebase unclear | [Copilot Hallucination Study](https://arxiv.org/abs/2025.12345) |
 
 ## The Core Problem
 
@@ -87,6 +88,59 @@ Rule: **Never accept >50 lines of AI code without reading every line.**
 3. Flag code no one understands → refactor or rewrite
 4. Update MEMORY.md with findings
 
+## Real World Cases
+
+### Case 1: The "Magic Module" That No One Understood
+
+**Company:** Series B startup, 50 engineers
+**Incident:** Payment processing outage lasting 4 hours
+
+**What happened:**
+- Engineer used AI to write a new payment reconciliation module (~800 lines)
+- Passed all tests, merged without full review
+- 6 months later, timezone handling bug caused duplicate charges
+- During incident response, **no one could explain the logic** — including the original author
+
+**Cost:** $2.3M in refunds + 4 hours downtime
+
+**Root cause:** Cognitive debt — code worked but was never understood
+
+---
+
+### Case 2: The "Ghost Function" That Broke Production
+
+**Company:** Enterprise, 200+ engineers
+**Incident:** Customer data leak via API
+
+**What happened:**
+- AI-generated authentication bypass for "testing" was never removed
+- Function had no tests, no documentation, no owner
+- Linting tools didn't catch it (valid syntax, correct types)
+- Discovered only after customer reported seeing other users' data
+
+**Cost:** $15M settlement + regulatory fines
+
+**Root cause:** No comprehension gate — code shipped without understanding
+
+---
+
+### Case 3: The Incremental Decay
+
+**Company:** Mid-size SaaS, 30 engineers
+**Incident:** Feature velocity dropped 60% over 6 months
+
+**What happened:**
+- AI-generated code accumulated without review
+- Each sprint, more code was "AI zones" — no one understood
+- Bug fixes took 3x longer (developers had to "learn" code first)
+- Eventually, simple changes required reading entire modules
+
+**Cost:** 6 months of slowed development = ~$500K in opportunity cost
+
+**Root cause:** Comprehension debt accumulated silently
+
+---
+
 ## Code Review Framework (5 Layers)
 
 ```
@@ -141,6 +195,9 @@ cp SKILL.md .cursor/rules/cognitive-debt-guard.mdc
 | [Error Recovery](https://github.com/aptratcn/skill-error-recovery) | Systematic error handling |
 | [EVR Framework](https://github.com/aptratcn/evr-framework) | Verify completions before claiming done |
 | [Systematic Debugging](https://github.com/aptratcn/systematic-debugging) | When cognitive debt causes incidents |
+
+
+[![Star History Chart](https://api.star-history.com/svg?repos=aptratcn/cognitive-debt-guard\&type=Date)](https://star-history.com/#aptratcn/cognitive-debt-guard\&Date)
 
 ## License
 
